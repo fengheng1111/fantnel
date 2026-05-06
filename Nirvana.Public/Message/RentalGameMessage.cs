@@ -1,6 +1,6 @@
 ﻿using Nirvana.Public.Manager;
-using Nirvana.WPFLauncher.Entities.EntitiesWPFLauncher.RentalGame;
-using Nirvana.WPFLauncher.Entities.EntitiesWPFLauncher.RentalGame.GameCharacters;
+using Nirvana.WPFLauncher.Entities.WPFLauncher.RentalGame;
+using Nirvana.WPFLauncher.Entities.WPFLauncher.RentalGame.GameCharacters;
 using Nirvana.WPFLauncher.Protocol;
 using NirvanaAPI.Utils.CodeTools;
 using Serilog;

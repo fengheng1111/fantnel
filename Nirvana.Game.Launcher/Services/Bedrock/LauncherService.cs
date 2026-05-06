@@ -2,7 +2,7 @@ using System.Diagnostics;
 using Codexus.Development.SDK.RakNet;
 using Nirvana.Game.Launcher.Entities;
 using Nirvana.Game.Launcher.Utils.Progress;
-using Nirvana.WPFLauncher.Entities.EntitiesWPFLauncher.NetGame.GameLaunch.Texture;
+using Nirvana.WPFLauncher.Entities.WPFLauncher.NetGame.GameLaunch.Texture;
 using NirvanaAPI.Utils;
 using Serilog;
 

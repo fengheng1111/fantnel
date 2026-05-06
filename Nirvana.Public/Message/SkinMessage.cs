@@ -1,5 +1,5 @@
 ﻿using Nirvana.Public.Manager;
-using Nirvana.WPFLauncher.Entities.EntitiesWPFLauncher.NetGame.GameSkin;
+using Nirvana.WPFLauncher.Entities.WPFLauncher.NetGame.GameSkin;
 using Nirvana.WPFLauncher.Protocol;
 
 namespace Nirvana.Public.Message;

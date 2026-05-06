@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using System.Text;
 using System.Text.Json;
-using Nirvana.WPFLauncher.Entities.EntitiesPc4399;
+using Nirvana.WPFLauncher.Entities.Pc4399;
 using QueryBuilder = Nirvana.WPFLauncher.Utils.QueryBuilder;
 
 namespace Nirvana.WPFLauncher.Protocol;

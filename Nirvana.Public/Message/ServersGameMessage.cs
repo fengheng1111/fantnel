@@ -1,6 +1,6 @@
 ﻿using Nirvana.Public.Manager;
-using Nirvana.WPFLauncher.Entities.EntitiesWPFLauncher.NetGame;
-using Nirvana.WPFLauncher.Entities.EntitiesWPFLauncher.NetGame.GameCharacters;
+using Nirvana.WPFLauncher.Entities.WPFLauncher.NetGame;
+using Nirvana.WPFLauncher.Entities.WPFLauncher.NetGame.GameCharacters;
 using Nirvana.WPFLauncher.Protocol;
 using NirvanaAPI.Utils.CodeTools;
 using Serilog;

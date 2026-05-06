@@ -2,11 +2,11 @@
 using Codexus.Development.SDK.Entities;
 using Codexus.Interceptors;
 using Nirvana.Public.Message;
-using Nirvana.WPFLauncher.Entities.EntitiesWPFLauncher.NetGame;
-using Nirvana.WPFLauncher.Entities.EntitiesWPFLauncher.NetGame.GameCharacters;
-using Nirvana.WPFLauncher.Entities.EntitiesWPFLauncher.NetGame.GameDetails;
-using Nirvana.WPFLauncher.Entities.EntitiesWPFLauncher.RentalGame;
-using Nirvana.WPFLauncher.Entities.EntitiesWPFLauncher.RentalGame.GameCharacters;
+using Nirvana.WPFLauncher.Entities.WPFLauncher.NetGame;
+using Nirvana.WPFLauncher.Entities.WPFLauncher.NetGame.GameCharacters;
+using Nirvana.WPFLauncher.Entities.WPFLauncher.NetGame.GameDetails;
+using Nirvana.WPFLauncher.Entities.WPFLauncher.RentalGame;
+using Nirvana.WPFLauncher.Entities.WPFLauncher.RentalGame.GameCharacters;
 using NirvanaAPI.Entities.Login;
 using NirvanaAPI.Manager;
 using NirvanaAPI.Utils.CodeTools;

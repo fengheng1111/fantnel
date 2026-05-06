@@ -1,5 +1,5 @@
 ﻿using System.Text.Json;
-using Nirvana.WPFLauncher.Entities.EntitiesPc4399;
+using Nirvana.WPFLauncher.Entities.Pc4399;
 using Nirvana.WPFLauncher.Http;
 
 namespace Nirvana.WPFLauncher.Protocol;

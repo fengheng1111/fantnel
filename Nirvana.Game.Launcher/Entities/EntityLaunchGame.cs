@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
-using Nirvana.WPFLauncher.Entities.EntitiesWPFLauncher.Minecraft;
-using Nirvana.WPFLauncher.Entities.EntitiesWPFLauncher.NetGame.GameLaunch.Texture;
+using Nirvana.WPFLauncher.Entities.WPFLauncher.Minecraft;
+using Nirvana.WPFLauncher.Entities.WPFLauncher.NetGame.GameLaunch.Texture;
 using NirvanaAPI.Entities.Login;
 
 namespace Nirvana.Game.Launcher.Entities;

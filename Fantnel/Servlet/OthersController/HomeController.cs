@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Nirvana.Public.Entities.EntitiesUpdate;
+using Nirvana.Public.Entities.Update;
 using Nirvana.Public.Utils;
-using NirvanaAPI.Entities.EntitiesNirvana;
+using NirvanaAPI.Entities.Nirvana;
 using NirvanaAPI.Manager;
 using NirvanaAPI.Utils;
 using NirvanaAPI.Utils.CodeTools;

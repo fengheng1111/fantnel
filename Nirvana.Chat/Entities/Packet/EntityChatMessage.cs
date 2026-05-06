@@ -1,5 +1,5 @@
 ﻿using System.Text.Json.Serialization;
-using NirvanaAPI.Entities.EntitiesNirvana;
+using NirvanaAPI.Entities.Nirvana;
 
 namespace Nirvana.Chat.Entities.Packet;
 

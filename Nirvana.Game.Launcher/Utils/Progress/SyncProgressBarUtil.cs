@@ -177,8 +177,8 @@ public static class SyncProgressBarUtil {
     }
 
     public class ProgressReport {
-        public double Percent { get; set; }
+        public double Percent { get; init; }
 
-        public string Message { get; set; } = "";
+        public string Message { get; init; } = "";
     }
 }

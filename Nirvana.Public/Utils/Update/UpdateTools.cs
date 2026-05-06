@@ -1,5 +1,5 @@
 ﻿using System.Runtime.InteropServices;
-using Nirvana.Public.Entities.EntitiesUpdate;
+using Nirvana.Public.Entities.Update;
 using NirvanaAPI.Manager;
 using NirvanaAPI.Utils;
 using Serilog;

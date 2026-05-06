@@ -29,4 +29,8 @@
         </Reference>
     </ItemGroup>
 
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="resources\heypixel\enum-struct.json" />
+    </ItemGroup>
+
 </Project>

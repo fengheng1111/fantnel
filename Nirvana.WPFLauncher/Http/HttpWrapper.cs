@@ -49,40 +49,12 @@ public class HttpWrapper : IDisposable {
         return await Client.SendAsync(request, cancellationToken);
     }
 
-    private async Task<HttpResponseMessage> PostJsonAsync<T>(string url, T data, Action<HttpRequestOptions>? configure = null, CancellationToken cancellationToken = default)
-    {
-        var content = JsonSerializer.Serialize(data);
-        return await PostAsync(url, content, "application/json", configure, cancellationToken);
-    }
-
-    public async Task<TResponse?> PostJsonAsync<TRequest, TResponse>(string url, TRequest data, Action<HttpRequestOptions>? configure = null, CancellationToken cancellationToken = default)
-    {
-        var obj = await PostJsonAsync(url, data, configure, cancellationToken);
-        obj.EnsureSuccessStatusCode();
-        return JsonSerializer.Deserialize<TResponse>(await obj.Content.ReadAsStringAsync(cancellationToken));
-    }
-
-    public async Task<HttpResponseMessage> PostFormAsync(string url, Dictionary<string, string> formData, Action<HttpRequestOptions>? configure = null, CancellationToken cancellationToken = default)
-    {
-        var httpRequestMessage = CreateRequest(HttpMethod.Post, url, configure);
-        httpRequestMessage.Content = new FormUrlEncodedContent(formData);
-        return await Client.SendAsync(httpRequestMessage, cancellationToken);
-    }
-
     public async Task<HttpResponseMessage> PostAsync(string url, string content, string contentType = "application/json", Action<HttpRequestOptions>? configure = null, CancellationToken cancellationToken = default)
     {
         var httpRequestMessage = CreateRequest(HttpMethod.Post, url, configure);
         httpRequestMessage.Content = new StringContent(content, Encoding.UTF8, contentType);
         return await Client.SendAsync(httpRequestMessage, cancellationToken);
     }
-
-    public async Task<HttpResponseMessage> PostAsync1(string url, string content, string contentType = "application/json", Action<HttpWrapperBuilder>? block = null, CancellationToken cancellationToken = default)
-    {
-        var httpRequestMessage = CreateRequest(HttpMethod.Post, url, content, block);
-        httpRequestMessage.Content = new StringContent(content, Encoding.UTF8, contentType);
-        return await Client.SendAsync(httpRequestMessage, cancellationToken);
-    }
-
 
     public async Task<HttpResponseMessage> PostAsync(string url, byte[] content, string contentType = "application/octet-stream", Action<HttpRequestOptions>? configure = null, CancellationToken cancellationToken = default)
     {
@@ -98,28 +70,21 @@ public class HttpWrapper : IDisposable {
         configure?.Invoke(httpRequestOptions);
         var requestUri = BuildUrl(url, httpRequestOptions.QueryParameters);
         var httpRequestMessage = new HttpRequestMessage(method, requestUri);
-        if (httpRequestOptions.HttpVersion != null) httpRequestMessage.Version = httpRequestOptions.HttpVersion;
-        foreach (var header in httpRequestOptions.Headers)
+        if (httpRequestOptions.HttpVersion != null) {
+            httpRequestMessage.Version = httpRequestOptions.HttpVersion;
+        }
+        foreach (var header in httpRequestOptions.Headers) {
             httpRequestMessage.Headers.TryAddWithoutValidation(header.Key, header.Value);
-        return httpRequestMessage;
-    }
-
-    private HttpRequestMessage CreateRequest(HttpMethod method, string url, string content, Action<HttpWrapperBuilder>? block)
-    {
-        var httpRequestOptions = _defaultOptions.Clone();
-        block?.Invoke(new HttpWrapperBuilder(_baseUrl, url, content));
-        var requestUri = BuildUrl(url, httpRequestOptions.QueryParameters);
-        var httpRequestMessage = new HttpRequestMessage(method, requestUri);
-        if (httpRequestOptions.HttpVersion != null) httpRequestMessage.Version = httpRequestOptions.HttpVersion;
-        foreach (var header in httpRequestOptions.Headers)
-            httpRequestMessage.Headers.TryAddWithoutValidation(header.Key, header.Value);
+        }
         return httpRequestMessage;
     }
 
     private string BuildUrl(string url, Dictionary<string, string> queryParams)
     {
         var text = string.IsNullOrEmpty(_baseUrl) ? url : _baseUrl + "/" + url.TrimStart('/');
-        if (queryParams.Count == 0) return text;
+        if (queryParams.Count == 0) {
+            return text;
+        }
         var text2 = string.Join("&", queryParams.Select(kv => Uri.EscapeDataString(kv.Key) + "=" + Uri.EscapeDataString(kv.Value)));
         var text3 = text.Contains('?') ? "&" : "?";
         return text + text3 + text2;
@@ -127,7 +92,9 @@ public class HttpWrapper : IDisposable {
 
     private void ApplyDefaultOptions()
     {
-        foreach (var header in _defaultOptions.Headers)
+        foreach (var header in _defaultOptions.Headers) {
             Client.DefaultRequestHeaders.TryAddWithoutValidation(header.Key, header.Value);
+        }
     }
+    
 }

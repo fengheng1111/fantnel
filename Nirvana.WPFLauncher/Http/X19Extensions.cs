@@ -11,10 +11,11 @@ public class X19Extensions(string url, bool token = true) {
     public static readonly X19Extensions Core1 = new("https://x19obtcore.nie.netease.com:8443");
     public static readonly X19Extensions Nirvana = new("http://110.42.70.32:13423", false);
     public static readonly X19Extensions Bmcl = new("https://bmclapi2.bangbang93.com", false);
-
+    public static readonly X19Extensions Pt4399 = new("https://ptlogin.4399.com", false);
+    
     public readonly HttpWrapper HttpWrapper = new(url, options => { options.UserAgent("WPFLauncher/0.0.0.0"); });
 
-    private async Task<HttpResponseMessage> Api(string url, string? body, string? userId, string? userToken)
+    private async Task<HttpResponseMessage> ApiSend(string url, string? body = null, string? userId = null, string? userToken = null)
     {
         if (body == null) {
             return await HttpWrapper.GetAsync(url);
@@ -29,29 +30,14 @@ public class X19Extensions(string url, bool token = true) {
         });
     }
 
-    public async Task<T?> Api<T>(string url)
-    {
-        return await Api<T>(url, null, null, null);
-    }
-
-    public async Task<T?> Api<T>(string url, object? body)
-    {
-        return await Api<T>(url, body, null, null);
-    }
-
-    public async Task<T?> Api<T>(string url, object? body, string? userId, string? userToken)
+    public async Task<T?> Api<T>(string url, object? body = null, string? userId = null, string? userToken = null)
     {
         return await Api<T>(url, JsonSerializer.Serialize(body, NPFLauncher.DefaultOptions), userId, userToken);
     }
 
-    public async Task<T?> Api<T>(string url, string body)
+    private async Task<T?> Api<T>(string url, string? body = null, string? userId = null, string? userToken = null)
     {
-        return await Api<T>(url, body, null, null);
-    }
-
-    private async Task<T?> Api<T>(string url, string? body, string? userId, string? userToken)
-    {
-        var response = await ApiRaw(url, body, userId, userToken);
+        var response = await ApiRawByString(url, body, userId, userToken);
         if (response == null) {
             return default;
         }
@@ -67,15 +53,18 @@ public class X19Extensions(string url, bool token = true) {
         return JsonSerializer.Deserialize<T>(response);
     }
 
-    private async Task<string?> ApiRaw(string url, string? body, string? userId, string? userToken)
+    private async Task<string?> ApiRawByString(string url, string? body = null, string? userId = null, string? userToken = null)
     {
-        var response = await Api(url, body, userId, userToken);
+        var response = await ApiSend(url, body, userId, userToken);
         response.EnsureSuccessStatusCode();
         return await response.Content.ReadAsStringAsync();
     }
-
-    public async Task<TResult?> Api<TBody, TResult>(string url, TBody? body)
+    
+    public async Task<byte[]?> ApiRawB(string url, string? body = null, string? userId = null, string? userToken = null)
     {
-        return await Api<TResult>(url, body);
+        var response = await ApiSend(url, body, userId, userToken);
+        response.EnsureSuccessStatusCode();
+        return await response.Content.ReadAsByteArrayAsync();
     }
+
 }

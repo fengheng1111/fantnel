@@ -1,9 +1,9 @@
 ﻿using Nirvana.Game.Launcher.Utils;
 using Nirvana.Public.Message;
-using Nirvana.WPFLauncher.Entities.EntitiesWPFLauncher.NetGame;
-using Nirvana.WPFLauncher.Entities.EntitiesWPFLauncher.NetGame.GameDetails;
-using Nirvana.WPFLauncher.Entities.EntitiesWPFLauncher.NetGame.GameSkin;
-using Nirvana.WPFLauncher.Entities.EntitiesWPFLauncher.RentalGame;
+using Nirvana.WPFLauncher.Entities.WPFLauncher.NetGame;
+using Nirvana.WPFLauncher.Entities.WPFLauncher.NetGame.GameDetails;
+using Nirvana.WPFLauncher.Entities.WPFLauncher.NetGame.GameSkin;
+using Nirvana.WPFLauncher.Entities.WPFLauncher.RentalGame;
 using NirvanaAPI.Utils;
 using Serilog;
 

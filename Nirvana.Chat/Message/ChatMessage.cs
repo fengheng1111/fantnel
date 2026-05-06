@@ -4,7 +4,7 @@ using System.Text.Json;
 using Codexus.Development.SDK.Connection;
 using Nirvana.Chat.Entities;
 using NirvanaAPI;
-using NirvanaAPI.Entities.EntitiesNirvana;
+using NirvanaAPI.Entities.Nirvana;
 using Serilog;
 
 namespace Nirvana.Chat.Message;

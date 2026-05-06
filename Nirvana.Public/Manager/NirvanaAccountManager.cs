@@ -2,7 +2,7 @@
 using Nirvana.Public.Entities.Nirvana;
 using Nirvana.WPFLauncher.Http;
 using NirvanaAPI;
-using NirvanaAPI.Entities.EntitiesNirvana;
+using NirvanaAPI.Entities.Nirvana;
 using NirvanaAPI.Utils.CodeTools;
 
 namespace Nirvana.Public.Manager;

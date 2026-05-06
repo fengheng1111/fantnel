@@ -1,7 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 using Nirvana.Public.Manager;
-using Nirvana.WPFLauncher.Entities.EntitiesWPFLauncher.NetGame;
-using Nirvana.WPFLauncher.Entities.EntitiesWPFLauncher.NetGame.GameDetails;
+using Nirvana.WPFLauncher.Entities.WPFLauncher.NetGame;
+using Nirvana.WPFLauncher.Entities.WPFLauncher.NetGame.GameDetails;
 using Nirvana.WPFLauncher.Protocol;
 using NirvanaAPI.Utils.CodeTools;
 

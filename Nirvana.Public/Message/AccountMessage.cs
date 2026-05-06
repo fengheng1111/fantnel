@@ -4,7 +4,7 @@ using Codexus.Cipher.Entities.MPay;
 using Codexus.Cipher.Protocol;
 using Nirvana.Public.Entities.Nirvana;
 using Nirvana.Public.Manager;
-using Nirvana.WPFLauncher.Entities.EntitiesWPFLauncher.Login;
+using Nirvana.WPFLauncher.Entities.WPFLauncher.Login;
 using Nirvana.WPFLauncher.Http;
 using Nirvana.WPFLauncher.Protocol;
 using NirvanaAPI;
@@ -18,12 +18,12 @@ using Serilog;
 namespace Nirvana.Public.Message;
 
 public static class AccountMessage {
+    
     // 保存/修改 游戏账号锁
     private static readonly Lock GameSaveAccountLock = new();
 
     // 登录游戏 锁
     private static readonly Lock LoginLock = new();
-
 
     // 默认 自动登录 已执行完成
     private static readonly List<EntityAccount> IsDefaultLogin = [];
@@ -31,18 +31,18 @@ public static class AccountMessage {
     private static string? _session4399Id; // 验证ID
     public static string? Captcha4399; // 验证内容
     public static byte[]? Captcha4399Bytes; // 验证码图片
-    private static readonly HttpClient HttpClient = new();
 
     /**
      * Session 4399
      */
     public static void UpdateCaptcha()
     {
-        var captchaId = Guid.NewGuid().ToString("N") + Guid.NewGuid().ToString("N") + Guid.NewGuid().ToString("N");
-        captchaId = captchaId[..8];
-        var response = HttpClient.GetAsync("https://ptlogin.4399.com/ptlogin/captcha.do?captchaId=" + captchaId).Result;
-        _session4399Id = captchaId;
-        Captcha4399Bytes = response.Content.ReadAsByteArrayAsync().Result;
+        lock (GameSaveAccountLock) {
+            var captchaId = Guid.NewGuid().ToString("N") + Guid.NewGuid().ToString("N") + Guid.NewGuid().ToString("N");
+            captchaId = captchaId[..8];
+            Captcha4399Bytes = X19Extensions.Pt4399.ApiRawB("/ptlogin/captcha.do?captchaId=" + captchaId).Result;
+            _session4399Id = captchaId;
+        }
     }
 
     /**
@@ -154,13 +154,12 @@ public static class AccountMessage {
     }
 
     // 登录游戏账号
-    public static void Login(EntityAccount account)
+    private static void Login(EntityAccount account)
     {
+        if (account.Password == null) {
+            throw new ErrorCodeException(ErrorCode.PasswordError);
+        }
         lock (LoginLock) {
-            if (account.Password == null) {
-                throw new ErrorCodeException(ErrorCode.PasswordError);
-            }
-
             EntityAuthenticationOtp? result = null; // 登录结果
 
             switch (account.Type) {
@@ -200,12 +199,10 @@ public static class AccountMessage {
             account.UserId = result.EntityId;
             account.Token = result.Token;
             InfoManager.AddAccount(account);
-
-            // 登录成功后 保存账号
-            SaveAccount();
-
-            CacheManager.CacheServer();
         }
+        // 登录成功后 保存账号
+        SaveAccount();
+        CacheManager.CacheServer();
     }
 
     private static string GenerateCookie(EntityMPayUserResponse user, EntityDevice device)
@@ -399,11 +396,8 @@ public static class AccountMessage {
         if (Captcha4399Bytes == null) {
             throw new ErrorCodeException(ErrorCode.Failure);
         }
-
-        var response = await HttpClient.PostAsync("http://110.42.70.32:13423/api/fantnel/captcha", new ByteArrayContent(Captcha4399Bytes));
-        var resultJson = await response.Content.ReadAsStringAsync();
-        var captcha = JsonSerializer.Deserialize<EntityResponse<string>>(resultJson);
-        return captcha?.Data ?? throw new ErrorCodeException(ErrorCode.Failure);
+        var response = await X19Extensions.Nirvana.Api<EntityResponse<string>>("/api/fantnel/captcha", new ByteArrayContent(Captcha4399Bytes));
+        return response?.Data ?? throw new ErrorCodeException(ErrorCode.Failure);
     }
 
     public static async Task RandomAccount(EntityGeeTest captcha)

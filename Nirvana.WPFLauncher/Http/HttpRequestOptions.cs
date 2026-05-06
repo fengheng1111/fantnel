@@ -5,10 +5,9 @@ public class HttpRequestOptions {
 
     public Dictionary<string, string> QueryParameters { get; } = new();
 
-    // ReSharper disable once MemberCanBePrivate.Global
-    public Version? HttpVersion { get; set; }
+    public Version? HttpVersion;
 
-    public HttpRequestOptions AddHeader(string key, string value)
+    private HttpRequestOptions AddHeader(string key, string value)
     {
         Headers[key] = value;
         return this;
@@ -16,8 +15,9 @@ public class HttpRequestOptions {
 
     public HttpRequestOptions AddHeaders(Dictionary<string, string> headers)
     {
-        foreach (var header in headers)
+        foreach (var header in headers) {
             Headers[header.Key] = header.Value;
+        }
         return this;
     }
 
@@ -39,8 +39,10 @@ public class HttpRequestOptions {
 
     public HttpRequestOptions AddQueries(Dictionary<string, string> queries)
     {
-        foreach (var query in queries)
+        foreach (var query in queries) {
             QueryParameters[query.Key] = query.Value;
+        }
+
         return this;
     }
 

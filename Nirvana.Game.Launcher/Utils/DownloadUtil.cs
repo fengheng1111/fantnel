@@ -30,7 +30,7 @@ public static class DownloadUtil {
                 }
             };
 
-            downloader.DownloadFileCompleted += (_, e) => { downloadProgress?.Invoke(100); };
+            downloader.DownloadFileCompleted += (_, _) => { downloadProgress?.Invoke(100); };
 
             // 分离目标路径为目标文件夹和文件名
             var fileInfo = new FileInfo(destinationPath);

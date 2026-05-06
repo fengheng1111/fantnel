@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
 using Codexus.Development.SDK.Extensions;
 using DotNetty.Buffers;
-using NirvanaAPI.Entities.EntitiesNirvana;
+using NirvanaAPI.Entities.Nirvana;
 
 namespace Nirvana.Chat.Entities.Table;
 

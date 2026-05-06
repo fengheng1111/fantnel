@@ -11,16 +11,14 @@ public class UserProfile(EntityUserInfo user) {
         0x4E, 0xC0, 0xCC, 0x6C, 0x54, 0x3A, 0x81, 0x95
     ];
 
-    public readonly EntityUserInfo User = user;
-
     public int GetUserId()
     {
-        return int.Parse(User.GetUserId());
+        return int.Parse(user.GetUserId());
     }
 
-    public string GetToken()
+    private string GetToken()
     {
-        return User.GetToken();
+        return user.GetToken();
     }
 
     public int GetAuthId()

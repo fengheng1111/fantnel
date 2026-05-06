@@ -6,30 +6,6 @@ using Serilog;
 namespace Nirvana.Public.Utils.Update;
 
 public static class FileUtil {
-    /**
-     * 设置 Unix 文件权限为 755
-     */
-    public static void SetUnixFilePermissions(string filePath)
-    {
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
-            return;
-        }
-
-        try {
-            var processStartInfo = new ProcessStartInfo("chmod", $"755 \"{filePath}\"") {
-                UseShellExecute = false
-            };
-            var process = Process.Start(processStartInfo);
-            process?.WaitForExit();
-        } catch (Exception e) {
-            Log.Warning("警告：使用 chmod 设置 {0} 权限时出错: {1}", filePath, e.Message);
-        }
-    }
-
-    public static string GenerateStartScript(string exeName)
-    {
-        return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "" : $"chmod +x \"{exeName}\"";
-    }
 
     private static string GenerateUpdateScript(string command = "", string? filePath = null)
     {
