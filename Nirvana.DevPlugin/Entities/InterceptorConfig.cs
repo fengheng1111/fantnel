@@ -11,7 +11,7 @@ public class InterceptorConfig {
     public required bool IsRental { get; init; }
 
     [JsonPropertyName("local_address")]
-    public string LocalAddress { get; init; } = "localhost";
+    public string LocalAddress { get; init; } = "127.0.0.1";
 
     [JsonPropertyName("local_port")]
     public required int LocalPort { get; init; }

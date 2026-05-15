@@ -21,7 +21,7 @@ public class GameProxiesController : ControllerBase {
     [HttpGet("/api/server/get")]
     public IActionResult GetLaunchHttp()
     {
-        var ip = Tools.GetLocalIpAddress();
+        var ip = Tools.GetLocalIpAddress(false);
         var proxies = ActiveGameAndProxies.GetAllProxies();
         var data = new JsonObject {
             ["ip"] = ip,

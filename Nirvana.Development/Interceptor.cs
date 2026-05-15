@@ -69,7 +69,7 @@ public class Interceptor {
             channel.Pipeline.AddLast("handler", new ServerHandler(currentConfig));
             channel.Pipeline.AddLast("pre-encoder", new MessageSerializer21Bit());
             channel.Pipeline.AddLast("encoder", new MessageSerializer());
-        })).LocalAddress(IPAddress.Any, availablePort);
+        })).LocalAddress(availablePort);
         Log.Information("Address: {0}:{1} To: {2}:{3}", currentConfig.LocalAddress, currentConfig.LocalPort, currentConfig.ForwardAddress, currentConfig.ForwardPort);
         Log.Information("NickName: {0}", currentConfig.NickName);
         interceptor._udpBroadcaster = new UdpBroadcaster(currentConfig.LocalPort, currentConfig);
