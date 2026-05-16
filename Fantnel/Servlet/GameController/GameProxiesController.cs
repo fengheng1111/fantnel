@@ -1,6 +1,8 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Nodes;
 using Microsoft.AspNetCore.Mvc;
+using Nirvana.Cipher.Cipher.Nirvana.Connection;
+using Nirvana.Cipher.Entities.Yggdrasil;
 using Nirvana.Public.Manager;
 using Nirvana.Public.Message;
 using NirvanaAPI.Utils;
@@ -36,4 +38,12 @@ public class GameProxiesController : ControllerBase {
         ActiveGameAndProxies.CloseProxy(id);
         return Ok(Code.ToJson(ErrorCode.Success));
     }
+    
+    [HttpPost("/api/gameproxie/authenticator")]
+    public IActionResult LaunchGameProxy([FromQuery] string id, [FromBody] GameProfile gameProfile)
+    {
+        NetEaseConnection.CreateAuthenticator(gameProfile, id);
+        return Ok(Code.ToJson(ErrorCode.Success));
+    }
+    
 }

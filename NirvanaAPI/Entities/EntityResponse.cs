@@ -9,7 +9,7 @@ public class EntityResponseBase {
 
     [JsonPropertyName("msg")]
     [JsonConverter(typeof(FirstStringConverter))]
-    public string? Msg { get; set; }
+    public string? Message { get; set; }
 }
 
 public class EntityResponse<T> : EntityResponseBase {

@@ -30,7 +30,7 @@ public static class RestartTools {
             var proxyMode = Get("proxyMode", args, "net");
             AccountMessage.DisableDefaultLogin(); // 禁止默认登录
             AccountMessage.SwitchAccountToForce(accountId); // 强制切换账号
-            InitProgram.NelInit1();
+            InitProgram.NelInit1(args);
             ProxiesMessage.StartProxyAsyncTo(id, name, port, proxyMode).Wait();
             return false;
         }

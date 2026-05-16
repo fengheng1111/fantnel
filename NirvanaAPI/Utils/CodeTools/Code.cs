@@ -13,7 +13,7 @@ public static class Code {
     private static EntityResponse<object> ToJson1(ErrorCode code, EntityResponse<object> json, object? data = null)
     {
         json.Code = (int)code;
-        json.Msg = GetMessage(code);
+        json.Message = GetMessage(code);
         json.Data = data;
         return json;
     }

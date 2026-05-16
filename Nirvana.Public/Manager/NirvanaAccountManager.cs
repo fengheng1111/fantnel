@@ -20,7 +20,7 @@ public static class NirvanaAccountManager {
         }
 
         if (string.IsNullOrEmpty(entity.Token)) {
-            throw new Exception(entity.Msg);
+            throw new Exception(entity.Message);
         }
 
         _days = null;

@@ -21,7 +21,7 @@ public static class StandardYggdrasil {
         _address = await RandomAuthServer();
     }
 
-    public static async Task<Result> JoinServerAsync(GameProfile profile, string serverId, bool login = false)
+    public static async Task JoinServerAsync(GameProfile profile, string serverId, bool login = false)
     {
         if (_address == null) {
             throw new Exception("Not StandardYggdrasil Servers Found.");
@@ -44,23 +44,23 @@ public static class StandardYggdrasil {
             var initiated = await InitializeConnection(stream, profile);
 
             if (login) {
-                return initiated.IsSuccess ? Result.Success() : Result.Clone(initiated);
+                return;
             }
 
-            return initiated.IsFailure ? Result.Clone(initiated) : await MakeRequest(stream, profile, serverId, initiated.Value!);
+            await MakeRequest(stream, profile, serverId, initiated);
         } catch (SocketException ex) {
-            return Result.Failure($"Network error: {ex.Message}");
+            throw new Exception($"Network error: {ex.Message}");
         } catch (Exception ex) {
-            return Result.Failure($"Unexpected error: {ex.Message}");
+            throw new Exception($"Unexpected error: {ex.Message}");
         }
     }
 
-    private static async Task<Result<byte[]>> InitializeConnection(NetworkStream stream, GameProfile profile)
+    private static async Task<byte[]> InitializeConnection(NetworkStream stream, GameProfile profile)
     {
         using var receive = await stream.ReadSteamWithInt16Async();
 
         if (receive.Length < 272) {
-            return Result<byte[]>.Failure("Invalid response length");
+            throw new Exception("Invalid response length");
         }
 
         var loginSeed = new byte[16];
@@ -74,15 +74,15 @@ public static class StandardYggdrasil {
         using var response = await stream.ReadSteamWithInt16Async();
 
         if (response.Length < 1) {
-            return Result<byte[]>.Failure("Empty response");
+            throw new Exception("Empty response");
         }
 
         var status = response.ReadByte();
 
-        return status != 0 ? Result<byte[]>.Failure($"Initialization failed with status: 0x{status:X2}") : Result<byte[]>.Success(loginSeed);
+        return status != 0 ? throw new Exception($"Initialization failed with status: 0x{status:X2}") : loginSeed;
     }
 
-    private static async Task<Result> MakeRequest(NetworkStream stream, GameProfile profile, string serverId, byte[] loginSeed)
+    private static async Task MakeRequest(NetworkStream stream, GameProfile profile, string serverId, byte[] loginSeed)
     {
         var token = profile.User.GetAuthToken();
 
@@ -95,10 +95,8 @@ public static class StandardYggdrasil {
         var packMessage = messageStream.ToArray();
         var (type, unpackMessage) = unpacker.UnpackMessage(packMessage);
         if (type != 9 || unpackMessage[0] != 0x00) {
-            return Result.Failure(Convert.ToHexString([unpackMessage[0]]));
+            throw new Exception(Convert.ToHexString([unpackMessage[0]]));
         }
-
-        return Result.Success();
     }
 
     private static async Task<YggdrasilServer[]> RandomAuthServer()

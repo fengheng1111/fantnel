@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Nirvana.Cipher.Cipher.Nirvana.Connection;
 using Nirvana.Cipher.Yggdrasil;
 using Nirvana.Public.Manager;
 using Nirvana.Public.Message;
@@ -34,7 +35,7 @@ public static class InitProgram {
     /**
      * 核心 初始化
      */
-    public static void NelInit1()
+    public static void NelInit1(string[] args)
     {
         // 插件初始化
         // 避免插件过早加载，因为这是没必要的
@@ -78,6 +79,13 @@ public static class InitProgram {
         _ = Task.Run(() => {
             _ = StandardYggdrasil.InitializationAsync();
         });
+
+        foreach (var arg in args) {
+            if ("--authenticated_false".Equals(arg)) {
+                NetEaseConnection.IsServerAuthenticated = false;
+                break;
+            }
+        }
         
     }
 

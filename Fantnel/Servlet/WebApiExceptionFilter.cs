@@ -23,7 +23,7 @@ public class WebApiExceptionFilter : ExceptionFilterAttribute {
         } else {
             response = new EntityResponse<object> {
                 Code = -1,
-                Msg = Tools.GetMessage(context.Exception)
+                Message = Tools.GetMessage(context.Exception)
             };
             var stack = GetStackTrace(context.Exception);
             if (stack != null) {

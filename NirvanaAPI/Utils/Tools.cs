@@ -77,7 +77,7 @@ public static class Tools {
                 return message1.TrimEnd(',', ' ');
             }
             case ErrorCodeException errorCodeException: {
-                var message = errorCodeException.Entity.Msg;
+                var message = errorCodeException.Entity.Message;
                 if (message != null) {
                     return message;
                 }

@@ -439,12 +439,12 @@ public static class AccountMessage {
         }
 
         if (entityResponse.Code != 1) {
-            throw new ErrorCodeException(ErrorCode.Failure, entityResponse.Msg);
+            throw new ErrorCodeException(ErrorCode.Failure, entityResponse.Message);
         }
 
         var account = JsonSerializer.Deserialize<EntityAccount>(randomAccount);
         if (account == null) {
-            throw new ErrorCodeException(ErrorCode.Failure, entityResponse.Msg);
+            throw new ErrorCodeException(ErrorCode.Failure, entityResponse.Message);
         }
 
         account.Type = "4399com";

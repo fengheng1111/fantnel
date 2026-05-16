@@ -111,7 +111,7 @@ public static class Program {
             Log.Information("-------- 涅槃科技 ----------");
 
             // Fantnel 初始化
-            InitProgram.NelInit1();
+            InitProgram.NelInit1(args);
             Log.Information("{0}", resourcesPath);
             Log.Information("Java: {0}", PathUtil.JavaPath);
         });
