@@ -49,7 +49,7 @@ public static class FileUtil {
 
     public static void DeleteDirectorySafe(string path)
     {
-        if (string.IsNullOrWhiteSpace(path) || !Directory.Exists(path)) {
+        if (!Directory.Exists(path)) {
             return;
         }
 

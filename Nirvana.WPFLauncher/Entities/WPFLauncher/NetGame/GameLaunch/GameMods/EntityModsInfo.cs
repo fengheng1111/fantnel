@@ -7,7 +7,7 @@ public class EntityModsInfo {
     public required string ModPath { get; set; }
 
     [JsonPropertyName("name")]
-    public required string Name { get; set; } = "";
+    public string Name { get; set; } = "";
 
     [JsonPropertyName("id")]
     public required string Id { get; set; }
@@ -19,5 +19,5 @@ public class EntityModsInfo {
     public required string Md5 { get; set; }
 
     [JsonPropertyName("version")]
-    public required string Version { get; set; } = "";
+    public string Version { get; set; } = "";
 }
