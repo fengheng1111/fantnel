@@ -15,13 +15,13 @@ public class HttpWrapper : IDisposable {
 
     private readonly HttpRequestOptions _defaultOptions;
 
-    public HttpWrapper(string baseUrl = "", Action<HttpRequestOptions>? configureDefaults = null, HttpClientHandler? handler = null)
+    public HttpWrapper(string baseUrl = "", Action<HttpRequestOptions>? configureDefaults = null, HttpClientHandler? handler = null, int timeoutSeconds = 60)
     {
         _baseUrl = baseUrl.TrimEnd('/');
         Client = new HttpClient(handler ?? new HttpClientHandler {
             AutomaticDecompression = DecompressionMethods.All
         }) {
-            Timeout = TimeSpan.FromSeconds(30L)
+            Timeout = TimeSpan.FromSeconds(timeoutSeconds)
         };
         _defaultOptions = new HttpRequestOptions();
         configureDefaults?.Invoke(_defaultOptions);

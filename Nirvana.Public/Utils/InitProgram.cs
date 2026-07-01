@@ -91,6 +91,16 @@ public static class InitProgram {
     */
     private static void VersionCheck()
     {
+        // 检查是否跳过版本校验
+        try {
+            if (NirvanaConfig.GetValue<bool>("skipVersionCheck")) {
+                Log.Warning("已跳过版本校验！");
+                return;
+            }
+        } catch (Exception) {
+            // 配置项不存在，继续正常校验
+        }
+
         // 检查是否为发布版本
         if (!PublicProgram.Release) {
             Log.Error("调试版，已跳过版本检测！");

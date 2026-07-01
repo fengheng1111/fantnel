@@ -44,6 +44,9 @@ public class NirvanaConfig {
         new ConfigValue<bool>(true) {
             Name = "autoUpdatePlugin"
         }, // 自动更新插件
+        new ConfigValue<bool>(false) {
+            Name = "skipVersionCheck"
+        }, // 跳过版本校验
         new ConfigValue<string> {
             Name = "account"
         }, // 涅槃账号

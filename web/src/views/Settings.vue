@@ -99,6 +99,15 @@
           </div>
         </div>
 
+        <div class="form-group">
+          <div class="form-options">
+            <div class="remember-me">
+              <input v-model="skipVersionCheck" class="form-checkbox" id="skipVersionCheck" type="checkbox">
+              <label class="form-checkbox-label" for="skipVersionCheck">跳过版本校验（如遇30秒超时错误可开启）</label>
+            </div>
+          </div>
+        </div>
+
       </div>
 
     </div>
@@ -108,7 +117,7 @@
 <script setup>
 import { ref, onMounted, watch, nextTick } from 'vue'
 import { Message } from '../utils/message.js'
-import { chatEnable, jvmArgs, gameArgs, gameMemory as setGameMemory, getSettings, autoLoginGame, autoLoginGame163Email, setUseJavaW, autoLoginGameCookie as setAutoLoginGameCookie, autoUpdatePlugin as setAutoUpdatePlugin } from '../utils/Tools.js'
+import { chatEnable, jvmArgs, gameArgs, gameMemory as setGameMemory, getSettings, autoLoginGame, autoLoginGame163Email, setUseJavaW, autoLoginGameCookie as setAutoLoginGameCookie, autoUpdatePlugin as setAutoUpdatePlugin, skipVersionCheck as setSkipVersionCheck } from '../utils/Tools.js'
 
 const vmArgs = ref('')
 const gameArguments = ref('')
@@ -120,6 +129,7 @@ const isAutoLoginGame163Email = ref(false)
 const autoLoginGameCookie = ref(false)
 const isInitialLoading = ref(true)
 const autoUpdatePlugin = ref(false)
+const skipVersionCheck = ref(false)
 
 // 监听 IRC 开启状态变化
 watch(ircEnabled, (newValue) => {
@@ -184,6 +194,13 @@ watch(autoUpdatePlugin, (newValue) => {
   }
 })
 
+// 监听跳过版本校验状态变化
+watch(skipVersionCheck, (newValue) => {
+  if (!isInitialLoading.value) {
+    handleSkipVersionCheck(newValue)
+  }
+})
+
 
 onMounted(() => {
   // 加载设置的逻辑
@@ -204,6 +221,7 @@ const loadSettings = async () => {
       autoLoginGameCookie.value = data.data.autoLoginGameCookie || false
       isAutoLoginGame163Email.value = data.data.autoLoginGame163Email || false
       autoUpdatePlugin.value = data.data.autoUpdatePlugin || false
+      skipVersionCheck.value = data.data.skipVersionCheck || false
     } else {
       Message.warning(data.msg || '加载设置失败')
     }
@@ -329,6 +347,20 @@ const handleAutoLoginGameCookie = async (value) => {
 const handleAutoUpdatePlugin = async (value) => {
   try {
     const data = await setAutoUpdatePlugin(value ? "true" : "false")
+    if (data.code === 1) {
+      Message.success(data.msg || '设置成功')
+    } else {
+      Message.warning(data.msg || '设置失败')
+    }
+  } catch (error) {
+    Message.error('设置失败，请检查网络连接')
+  }
+}
+
+// 处理跳过版本校验状态变化
+const handleSkipVersionCheck = async (value) => {
+  try {
+    const data = await setSkipVersionCheck(value ? "true" : "false")
     if (data.code === 1) {
       Message.success(data.msg || '设置成功')
     } else {

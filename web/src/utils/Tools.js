@@ -324,6 +324,11 @@ export async function autoUpdatePlugin(value = "true") {
     return await axios.get(`/api/nirvana/set?mode=autoUpdatePlugin&value=${value}`).then(res => res.data);
 }
 
+// 跳过版本校验
+export async function skipVersionCheck(value = "true") {
+    return await axios.get(`/api/nirvana/set?mode=skipVersionCheck&value=${value}`).then(res => res.data);
+}
+
 // 初始化窗口模式
 export async function initWindowMode() {
     // 发送初始化窗口模式消息
