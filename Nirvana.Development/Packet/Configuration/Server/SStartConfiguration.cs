@@ -6,7 +6,7 @@ using Serilog;
 namespace Nirvana.Development.Packet.Configuration.Server;
 
 public class SStartConfiguration : DPacket {
-    public static readonly RegisterPacket RegisterPacket = new(EnumConnectionState.Play, EnumPacketDirection.ClientBound, 105, EnumProtocolVersion.V1206, EnumProtocolVersion.V1210);
+    public static readonly RegisterPacket RegisterPacket = new(EnumConnectionState.Play, EnumPacketDirection.ClientBound, 105, EnumProtocolVersion.V1206, EnumProtocolVersion.V1210, EnumProtocolVersion.V1218);
 
     public override bool HandlePacket(BGameConnection connection)
     {

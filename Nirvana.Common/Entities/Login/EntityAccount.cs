@@ -33,13 +33,15 @@ public class EntityAccount : EntityUserInfo {
     public bool Equals(EntityAccount other)
     {
         // cookie 用 值 判断
-        if (Type == "cookie" && other.Type == "cookie") {
-            return Password == other.Password;
+        if ("cookie".Equals(Type) && "cookie".Equals(other.Type))
+        {
+            return string.Equals(Password, other.Password);
         }
 
         // 账号 密码 登录类型 一致 则 认为 是 同一个账号
-        return Account == other.Account && Type == other.Type && Password == other.Password;
+        return string.Equals(Account, other.Account) && string.Equals(Type, other.Type) && string.Equals(Password, other.Password);
     }
+
 
     public new string ToString()
     {

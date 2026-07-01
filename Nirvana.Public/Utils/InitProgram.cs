@@ -194,8 +194,4 @@ public static class InitProgram {
 
     }
 
-    public static async Task<bool> SafeTheme(string themeValue)
-    {
-        return await X19Extensions.Nirvana.ApiAsync<EntityResponseBase>("/api/theme/name?value=" + themeValue) is { Code: 1 };
-    }
 }

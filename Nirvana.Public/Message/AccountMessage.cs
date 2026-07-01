@@ -53,16 +53,10 @@ public static class AccountMessage {
      * @param id 账号Id
      * @return 账号实体
      */
-    private static EntityAccount GetAccount(int id, bool safeUserId = true)
+    private static EntityAccount GetAccountById(int id, bool safeUserId = true)
     {
-        var entity = GetAccountList(safeUserId);
-        foreach (var item in entity) {
-            if (item.Id == id) {
-                return item;
-            }
-        }
-
-        throw new ErrorCodeException(ErrorCode.NotFound);
+        var entityAccount = GetAccountList(safeUserId).FirstOrDefault(entityAccount => id == entityAccount.Id);
+        return entityAccount ?? throw new ErrorCodeException(ErrorCode.NotFound);
     }
 
     /**
@@ -71,7 +65,7 @@ public static class AccountMessage {
      */
     public static void SwitchAccount(int id)
     {
-        var account = GetAccount(id);
+        var account = GetAccountById(id);
         foreach (var gameAccount in InfoManager.GameAccountList.Where(gameAccount => gameAccount.Equals(account))) {
             InfoManager.SetGameAccount(gameAccount);
             break;
@@ -81,7 +75,7 @@ public static class AccountMessage {
     // 强制切换账号
     public static void SwitchAccountToForce(int id)
     {
-        InfoManager.SetGameAccount(GetAccount(id, false));
+        InfoManager.SetGameAccount(GetAccountById(id, false));
     }
 
     // 禁止默认登录
@@ -103,12 +97,32 @@ public static class AccountMessage {
     }
 
     /**
+     * 修复账号ID
+     * @account 需要需要ID的账号
+     * @return 修复后的账号
+     */
+    private static EntityAccount FixAccountId(EntityAccount account)
+    {
+        var entityAccount = GetAccountList().FirstOrDefault(entityAccount => entityAccount.Equals(account));
+        if (entityAccount != null)
+        {
+            account.Id = entityAccount.Id;
+        }
+        return account;
+    }
+
+    public static EntityAccount GetGameAccount()
+    {
+        return FixAccountId(InfoManager.GetGameAccount());
+    }
+
+    /**
      * 获取所有账号列表
      * @return 账号实体数组
      */
     public static EntityAccount[] GetAccountList(bool safeUserId = true)
     {
-        return GetAccountList1(safeUserId: safeUserId).Item1;
+        return GetAccountList1(safeUserId).Item1;
     }
 
     /**
@@ -121,29 +135,37 @@ public static class AccountMessage {
 
         // 给 账号 赋值 Id
         var index = -1;
-        foreach (var item in entity) {
+        foreach (var item in entity)
+        {
             index++;
             item.Id = index;
             // 登录成功 同步 UserId, Token
-            foreach (var gameAccount in InfoManager.GameAccountList.Where(gameAccount => gameAccount.Equals(item))) {
+            foreach (var gameAccount in InfoManager.GameAccountList.Where(gameAccount => gameAccount.Equals(item)))
+            {
                 item.UserId = gameAccount.UserId;
                 item.Token = gameAccount.Token;
                 break;
             }
         }
 
-        if (defaultLogin) {
+        if (defaultLogin)
+        {
             DefaultLogin(entity);
         }
 
         // 避免因配置加载的账号导致显示 UserId
-        if (safeUserId) {
-            foreach (var item in entity) {
+        // ReSharper disable once InvertIf
+        if (safeUserId)
+        {
+            foreach (var item in entity)
+            {
                 var flag = InfoManager.GameAccountList.Any(gameAccount => gameAccount.Equals(item));
-                if (!flag) {
-                    item.UserId = null;
-                    item.Token = null;
+                if (flag)
+                {
+                    continue;
                 }
+                item.UserId = null;
+                item.Token = null;
             }
         }
 
@@ -153,7 +175,7 @@ public static class AccountMessage {
     // 登录游戏账号
     public static void Login(int id)
     {
-        Login(GetAccount(id));
+        Login(GetAccountById(id));
     }
 
     // 登录游戏账号
@@ -417,7 +439,12 @@ public static class AccountMessage {
         return response?.Data ?? throw new ErrorCodeException(ErrorCode.Failure);
     }
 
-    public static async Task RandomAccount(EntityGeeTest captcha)
+    public static void RandomAccount(EntityGeeTest captcha)
+    {
+        RandomAccountAsync(captcha).GetAwaiter().GetResult();
+    }
+
+    private static async Task RandomAccountAsync(EntityGeeTest captcha)
     {
         var randomAccount = await X19Extensions.Nirvana.ApiAsync<string>("/api/nac4399?mode=get&" + NirvanaConfig.GetLoginT() + "&" + captcha.Get());
         if (randomAccount == null) {

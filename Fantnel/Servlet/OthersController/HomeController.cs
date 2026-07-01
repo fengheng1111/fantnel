@@ -5,7 +5,6 @@ using Nirvana.Common.Manager;
 using Nirvana.Common.Utils;
 using Nirvana.Common.Utils.CodeTools;
 using Nirvana.Public.Entities.Update;
-using Nirvana.Public.Utils;
 
 namespace Fantnel.Servlet.OthersController;
 
@@ -44,10 +43,7 @@ public class HomeController : ControllerBase {
             return Ok(Code.ToJson(ErrorCode.ParamError));
         }
 
-        // 检查主题是否存在
-        if (InitProgram.SafeTheme(entity.Value).GetAwaiter().GetResult()) {
-            ConfigUtil.SaveConfig("themeValue", entity.Value);
-        }
+        ConfigUtil.SaveConfig("themeValue", entity.Value);
 
         // 更新主题文件
         new EntityUpdate {

@@ -258,8 +258,12 @@ public class NirvanaConfig {
 
     public static string GetLoginT()
     {
-        var account = GetValue<string>("account");
-        var token = GetValue<string>("token");
-        return $"account={account}&online={token}";
+        try {
+            var account = GetValue<string>("account");
+            var token = GetValue<string>("token");
+            return $"account={account}&online={token}";
+        }catch (Exception) {
+            return "";
+        }
     }
 }

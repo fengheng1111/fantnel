@@ -119,13 +119,13 @@ public class GameAccountController : ControllerBase {
     [HttpGet("/api/gameaccount/current")]
     public IActionResult GetGameAccountHttp()
     {
-        return Ok(Code.ToJson(ErrorCode.Success, InfoManager.GetGameAccount()));
+        return Ok(Code.ToJson(ErrorCode.Success, AccountMessage.GetGameAccount()));
     }
 
     [HttpPost("/api/gameaccount/random")]
     public IActionResult RandomAccountHttp([FromBody] EntityGeeTest captcha)
     {
-        AccountMessage.RandomAccount(captcha).GetAwaiter().GetResult();
+        AccountMessage.RandomAccount(captcha);
         return Ok(Code.ToJson(ErrorCode.Success));
     }
 }

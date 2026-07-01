@@ -6,7 +6,7 @@ using Serilog;
 namespace Nirvana.Development.Packet.Login.Client;
 
 public class CPacketLoginAcknowledged : DPacket {
-    public static readonly RegisterPacket RegisterPacket = new(EnumConnectionState.Login, EnumPacketDirection.ServerBound, 3, EnumProtocolVersion.V1210, EnumProtocolVersion.V1206);
+    public static readonly RegisterPacket RegisterPacket = new(EnumConnectionState.Login, EnumPacketDirection.ServerBound, 3, EnumProtocolVersion.V1210, EnumProtocolVersion.V1206, EnumProtocolVersion.V1218);
 
     public override bool HandlePacket(BGameConnection connection)
     {

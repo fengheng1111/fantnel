@@ -127,7 +127,7 @@ public class GameConnection : BGameConnection {
         }, State, direction, id, ProtocolVersion, Config.GameId);
 
         if (packet == null) {
-            // Log.Information("Handle[{0}.{1}]: {2}", direction, State, id);
+            // Log.Information("HandleNull[{0}.{1}]: {2}", direction, State, id);
             buffer.ResetReaderIndex();
             onRedirect(buffer);
         }
